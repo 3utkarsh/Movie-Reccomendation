@@ -1,0 +1,17 @@
+body {
+  font-family: Arial;
+}
+
+#movies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  width: 200px;
+}
+
+img {
+  width: 100%;
+}
