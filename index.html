@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Movies</title>
-  <link rel="stylesheet" href="Style.css">
+  <title>Movie App</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Movies</h2>
+<nav class="navbar">
+  <div class="nav-left"></div>
+
+  <div class="nav-right">
+    <input type="text" id="search" placeholder="Search movies..." />
+
+    <select id="sort">
+      <option value="">Sort</option>
+      <option value="az">A-Z</option>
+      <option value="year">Year</option>
+    </select>
+
+    <select id="filter">
+      <option value="">Filter</option>
+      <option value="movie">Movie</option>
+      <option value="series">Series</option>
+    </select>
+  </div>
+</nav>
+
+<h2 class="heading">Movies</h2>
+
 <div id="movies"></div>
 
-<script src="Script.js"></script>
+<div id="modal" class="modal">
+  <div class="modal-content" id="modalContent"></div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
