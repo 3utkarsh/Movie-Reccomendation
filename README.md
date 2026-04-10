@@ -1,70 +1,78 @@
-# 🎬 Movie Recommendation Web App
+🎬 Movie Recommendation Web App
+📌 Project Idea
 
-## 📌 Project Idea
+This project is a Movie Recommendation Web Application that allows users to explore, discover, and save movies.
+Instead of just searching, the application provides trending movies, personalized recommendations, and a watchlist feature, making it more interactive and user-focused.
 
-This project is a Movie Recommendation Web Application that allows users to explore movies by searching for titles and viewing their posters and details. The application will provide a simple and interactive interface where users can discover movies and get suggestions based on search queries.
-
----
-
-## 🎯 Purpose
+🎯 Purpose
 
 The purpose of this project is to:
 
-* Demonstrate the use of JavaScript with real-world data
-* Integrate a public API to fetch movie information
-* Build an interactive and user-friendly interface
-* Apply concepts like searching, filtering, and sorting using array methods
+Demonstrate JavaScript concepts using real-world data
+Integrate a public API to fetch dynamic movie data
+Build an interactive and responsive user interface
+Apply searching, filtering, and sorting using array methods
+Create a more recommendation-based experience rather than just search
+🔗 API Used
 
----
+TMDB (The Movie Database) API
+https://www.themoviedb.org/
 
-## 🔗 API Selected
+This API provides:
 
-**OMDb API (Open Movie Database)**
-http://www.omdbapi.com/
+Trending movies
+Popular movies
+Movie search results
+Movie details (ratings, overview, posters)
+Recommendations based on user activity
+🚀 Features
+🔍 Search
+Users can search movies by title
+Implemented with debouncing to reduce unnecessary API calls
+🎯 Recommendations
+Displays personalized movie recommendations
+Based on recently viewed movies
+🔥 Trending Movies
+Shows real-time trending movies using TMDB API
+❤️ Watchlist
+Users can add movies to a watchlist
+Data is stored using localStorage for persistence
+🎚️ Filtering
+Movies can be filtered based on criteria (e.g., type or category)
+Implemented using filter()
+🔽 Sorting
+Movies can be sorted by:
+Title (A–Z)
+Rating or popularity
+Implemented using sort()
+🎴 Display
 
-This API provides movie-related data such as:
+Each movie card displays:
 
-* Movie titles
-* Posters
-* Year of release
-* IMDb IDs
-
----
-
-## 🚀 Planned Features
-
-### 🔍 Search
-
-Users will be able to search for movies by entering keywords.
-
-### 🎚️ Filtering
-
-Users can filter movies based on:
-
-* Year
-* Type (movie/series)
-
-### 🔽 Sorting
-
-Users will be able to sort movies by:
-
-* Title (A–Z)
-* Year (latest to oldest)
-
-### 🎴 Display
-
-* Movie title
-* Movie poster
-* Basic details
-
----
-
-## 🛠️ Technologies Used
-
-* HTML
-* CSS
-* JavaScript
-* Fetch API
-* Array Higher-Order Functions (`map`, `filter`, `sort`)
-
----
+Movie poster
+Movie title
+Rating (in details view)
+📱 Responsive Design
+Fully responsive across:
+Mobile
+Tablet
+Desktop
+🧠 Concepts Used
+JavaScript
+Fetch API
+Async/Await
+DOM Manipulation
+Event Handling
+Array Higher-Order Functions
+map() → rendering movie cards
+filter() → filtering movies
+sort() → sorting results
+Performance Optimization
+Debouncing (search input)
+Browser Storage
+localStorage (watchlist & recent movies)
+🛠️ Technologies Used
+HTML
+CSS
+JavaScript (ES6+)
+TMDB API
