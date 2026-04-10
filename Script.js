@@ -1,77 +1,114 @@
-const API_KEY = "218f4830";
-let allMovies = [];
+const API_KEY = "f833faaba54d6eb393c19ecb9d80d465";
+const BASE_URL = "https://api.themoviedb.org/3";
+const IMG_URL = "https://image.tmdb.org/t/p/w500";
 
-getMovies("avengers");
+let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+let recent = JSON.parse(localStorage.getItem("recent")) || [];
 
-async function getMovies(query) {
-  const container = document.getElementById("movies");
-  container.innerHTML = "Loading...";
+async function fetchMovies(query) {
+  const res = await fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}`);
+  const data = await res.json();
+  return data.results || [];
+}
 
-  const res = await fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`);
+function createCard(movie) {
+  const div = document.createElement("div");
+  div.className = "card";
+
+  div.innerHTML = `
+    <img src="${movie.poster_path ? IMG_URL + movie.poster_path : 'https://via.placeholder.com/200x300'}" />
+  `;
+
+  div.onclick = () => showDetails(movie.id);
+
+  return div;
+}
+
+async function loadTrending() {
+  const res = await fetch(`${BASE_URL}/trending/movie/week?api_key=${API_KEY}`);
   const data = await res.json();
 
-  if (!data.Search) {
-    container.innerHTML = "No movies found";
-    return;
-  }
+  const container = document.getElementById("trending");
+  container.innerHTML = "";
 
-  allMovies = data.Search;
-  displayMovies(allMovies);
+  data.results.forEach(m => container.appendChild(createCard(m)));
 }
 
-function displayMovies(movies) {
-  const container = document.getElementById("movies");
+async function loadRecommended() {
+  let url;
 
-  container.innerHTML = movies.map(movie => `
-    <div class="card" onclick="showDetails('${movie.imdbID}')">
-      <h3>${movie.Title}</h3>
-      <img src="${movie.Poster !== 'N/A' ? movie.Poster : ''}" />
-    </div>
-  `).join("");
-}
-
-let timeout;
-document.getElementById("search").addEventListener("input", (e) => {
-  clearTimeout(timeout);
-  timeout = setTimeout(() => {
-    getMovies(e.target.value || "avengers");
-  }, 500);
-});
-
-document.getElementById("sort").addEventListener("change", (e) => {
-  let sorted = [...allMovies];
-
-  if (e.target.value === "az") {
-    sorted.sort((a, b) => a.Title.localeCompare(b.Title));
-  } else if (e.target.value === "year") {
-    sorted.sort((a, b) => b.Year - a.Year);
+  if (recent.length) {
+    const last = recent[recent.length - 1];
+    url = `${BASE_URL}/movie/${last.id}/recommendations?api_key=${API_KEY}`;
+  } else {
+    url = `${BASE_URL}/movie/popular?api_key=${API_KEY}`;
   }
 
-  displayMovies(sorted);
-});
+  const res = await fetch(url);
+  const data = await res.json();
 
-document.getElementById("filter").addEventListener("change", (e) => {
-  const filtered = allMovies.filter(movie => movie.Type === e.target.value);
-  displayMovies(e.target.value ? filtered : allMovies);
-});
+  const container = document.getElementById("recommended");
+  container.innerHTML = "";
+
+  data.results.forEach(m => container.appendChild(createCard(m)));
+}
+
+function loadWatchlist() {
+  const container = document.getElementById("watchlist");
+  container.innerHTML = "";
+
+  watchlist.forEach(m => container.appendChild(createCard(m)));
+}
 
 async function showDetails(id) {
-  const res = await fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&i=${id}`);
+  const res = await fetch(`${BASE_URL}/movie/${id}?api_key=${API_KEY}`);
   const data = await res.json();
+
+  recent.push(data);
+  localStorage.setItem("recent", JSON.stringify(recent));
 
   const modal = document.getElementById("modal");
   const content = document.getElementById("modalContent");
 
   content.innerHTML = `
-    <h2>${data.Title}</h2>
-    <p>${data.Plot}</p>
-    <p>⭐ ${data.imdbRating}</p>
+    <h2>${data.title}</h2>
+    <p>${data.overview}</p>
+    <p>⭐ ${data.vote_average}</p>
+    <button onclick="addToWatchlist(${data.id}, '${data.title}', '${data.poster_path}')">
+      ❤️ Add to Watchlist
+    </button>
     <button onclick="closeModal()">Close</button>
   `;
 
   modal.style.display = "flex";
 }
 
+function addToWatchlist(id, title, poster) {
+  if (!watchlist.find(m => m.id === id)) {
+    watchlist.push({ id, title, poster_path: poster });
+    localStorage.setItem("watchlist", JSON.stringify(watchlist));
+    loadWatchlist();
+  }
+}
+
 function closeModal() {
   document.getElementById("modal").style.display = "none";
 }
+
+let timeout;
+document.getElementById("search").addEventListener("input", (e) => {
+  clearTimeout(timeout);
+
+  timeout = setTimeout(async () => {
+    const movies = await fetchMovies(e.target.value || "popular");
+
+    const container = document.getElementById("trending");
+    container.innerHTML = "";
+
+    movies.forEach(m => container.appendChild(createCard(m)));
+  }, 400);
+});
+
+loadTrending();
+loadRecommended();
+loadWatchlist();
