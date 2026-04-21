@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Movie App</title>
+  <title>Movies</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <nav class="navbar">
-  <div class="logo">
-    <div class="dots">
-      <span class="dot orange"></span>
-      <span class="dot green"></span>
-      <span class="dot blue"></span>
-    </div>
-    <h2>Moviebox</h2>
-  </div>
+  <div class="logo">MOVIES</div>
 
-  <div class="controls">
-    <input id="search" placeholder="Search movies..." />
+  <div class="nav-right">
+    <a href="index.html" class="active">Trending</a>
+    <a href="popular.html">Popular</a>
+    <a href="search.html" id="searchBtn">Search</a>
+
     <select id="genreFilter">
       <option value="">Genres</option>
     </select>
@@ -27,12 +27,7 @@
   </div>
 </nav>
 
-<h2 class="heading">Trending</h2>
-<div id="trending" class="row"></div>
-
-<h2 class="heading">Recommended</h2>
-<div id="recommended" class="row"></div>
-
+<div id="trending"></div>
 <div id="modal" class="modal">
   <div class="modal-content" id="modalContent"></div>
 </div>
