@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Movies</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+  <div class="logo">MOVIES</div>
+
+  <div class="nav-right">
+    <a href="index.html">Trending</a>
+    <a href="popular.html">Popular</a>
+    <a href="search.html" class="active">Search</a>
+
+    <input type="text" id="searchInput" placeholder="Search movies...">
+
+    <button id="themeToggle">🌙</button>
+  </div>
+</nav>
+
+<div id="movies"></div>
+
+<div id="modal" class="modal">
+  <div id="modalContent" class="modal-content"></div>
+</div>
+
+<script src="search.js"></script>
+</body>
+</html>
